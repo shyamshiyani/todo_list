@@ -17,30 +17,33 @@ class HiveDataModelAdapter extends TypeAdapter<HiveDataModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return HiveDataModel(
-      name: fields[0] as String,
-      description: fields[1] as String,
-      date: fields[2] as DateTime,
-      time: fields[3] as String,
-      priority: fields[4] as int,
-      status: fields[5] as bool,
+      key: fields[0] as int,
+      name: fields[1] as String,
+      description: fields[2] as String,
+      date: fields[3] as DateTime,
+      time: fields[4] as String,
+      priority: fields[5] as int,
+      status: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, HiveDataModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.key)
       ..writeByte(1)
-      ..write(obj.description)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.date)
+      ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.time)
+      ..write(obj.date)
       ..writeByte(4)
-      ..write(obj.priority)
+      ..write(obj.time)
       ..writeByte(5)
+      ..write(obj.priority)
+      ..writeByte(6)
       ..write(obj.status);
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -13,22 +15,21 @@ class HiveHelpers {
     var openBox = await Hive.openBox<HiveDataModel>("Todo");
 
     List<HiveDataModel> data = await openBox.values.toList();
-
-    print(openBox.values);
+    log("=================");
+    log("${openBox.keys}");
+    log("=================");
     return data;
   }
 
   static updateData(index, HiveDataModel hiveDataModel) async {
     var openBox = await Hive.openBox<HiveDataModel>("Todo");
 
-    int key = await openBox.keyAt(index);
-    openBox.put(key, hiveDataModel);
+    openBox.put(hiveDataModel.key, hiveDataModel);
   }
 
-  static deleteData(index) async {
+  static deleteData(key) async {
     var openBox = await Hive.openBox<HiveDataModel>("Todo");
 
-    int key = await openBox.keyAt(index);
     await openBox.delete(key);
   }
 }

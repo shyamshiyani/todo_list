@@ -6,20 +6,23 @@ part 'hive_data_model.g.dart';
 @HiveType(typeId: 0)
 class HiveDataModel {
   @HiveField(0)
-  String name;
+  int key;
   @HiveField(1)
-  String description;
+  String name;
   @HiveField(2)
-  DateTime date;
+  String description;
   @HiveField(3)
-  String time;
+  DateTime date;
   @HiveField(4)
-  int priority;
+  String time;
   @HiveField(5)
+  int priority;
+  @HiveField(6)
   bool status;
 
   HiveDataModel(
-      {required this.name,
+      {required this.key,
+      required this.name,
       required this.description,
       required this.date,
       required this.time,

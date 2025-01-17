@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<HiveDataModel> modelData = [];
   List<HiveDataModel> shortedModelData = [];
+  int key = 0;
 
   //Form Key
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -43,6 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getData() async {
     modelData = await HiveHelpers.getData();
+    key = modelData.last.key;
+    key++;
 
     setState(() {});
   }
@@ -131,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context: context,
                                           initialDate: DateTime.now(),
                                           firstDate: DateTime(2000),
-                                          lastDate: DateTime.now()))!;
+                                          lastDate: DateTime(3000)))!;
 
                                       dateController.text =
                                           "${date!.day} / ${date!.month} / ${date!.year}";
@@ -264,6 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               formKey.currentState!.save();
                                               HiveDataModel data =
                                                   HiveDataModel(
+                                                      key: key,
                                                       name: name!,
                                                       description: description!,
                                                       date: date!,
@@ -500,6 +504,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 formKey.currentState!.save();
                                                 HiveDataModel data =
                                                     HiveDataModel(
+                                                        key: modelData[index]
+                                                            .key,
                                                         name: name!,
                                                         description:
                                                             description!,
@@ -509,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         priority: priority!,
                                                         status: status);
                                                 await HiveHelpers.updateData(
-                                                    index, data);
+                                                    modelData[index].key, data);
                                                 nameController.clear();
                                                 descriptionController.clear();
                                                 dateController.clear();
@@ -540,7 +546,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   //delete
                   onLongPress: () async {
-                    await HiveHelpers.deleteData(index);
+                    await HiveHelpers.deleteData(modelData[index].key);
                     await getData();
 
                     ScaffoldMessenger.of(context).showSnackBar(
